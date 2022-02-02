@@ -4,15 +4,20 @@ import './App.css';
 function App() {
 
   const [posts, setPosts] = useState([]);
+  const [title, setTitle] = useState('');
+  const [postText, setPostText] = useState('');
 
   function add(){
     setPosts([...posts, 
       {
-        title: "Fourth Post!",
-        postText: "Hello, this is my fourth post! How exciting!",
-        date: "2022-02-04"
+        title: title,
+        postText: postText,
+        date: new Date(),
+        id: Math.random()
       }
     ]);
+    setTitle('');
+    setPostText('');
   } 
 
   return (
@@ -20,18 +25,18 @@ function App() {
       <h1>Blog Posts</h1>
 
       <div>
-        <input placeholder='Title' />
-        <input placeholder='Post' />
+        <input onChange={(e) => setTitle(e.target.value)} placeholder='Title' value={title}/>
+        <input onChange={(e) => setPostText(e.target.value)} placeholder='Post' value={postText}/>
         <button onClick={add}>New Post</button>
         <button onClick={() => setPosts([])}>Delete all posts</button>
       </div>
 
       {posts.map((item) => {
         return (
-          <div>
+          <div key={item.id}>
             <h2>{item.title}</h2>
             <p>{item.postText}</p>
-            <p>{item.date}</p>
+            <p>{item.date.toLocaleString()}</p>
             <input placeholder='New post title' />
             <input placeholder='New post text' />
             <button>Edit</button>
